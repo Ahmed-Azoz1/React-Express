@@ -1,15 +1,7 @@
-import { RequestHandler } from "express-serve-static-core"
 import { db } from "../datastore"
-import { Post } from "../types";
+import { ExpressHandler, Post } from "../types";
 import crypto from 'crypto';
 
-
-export type ExpressHandler<Req,Res> = RequestHandler<
-    string,
-    Partial<Res>,
-    Partial<Req>,
-    any
->;
 
 
 // get(Posts)

@@ -1,3 +1,5 @@
+import { RequestHandler } from "express";
+
 export interface User {
     id:string;
     fristName:string;
@@ -27,3 +29,12 @@ export interface Comment {
     comment:string;
     postedAt:number;
 }
+
+
+// postHander type Check
+export type ExpressHandler<Req,Res> = RequestHandler<
+    string,
+    Partial<Res>,
+    Partial<Req>,
+    any
+>;
