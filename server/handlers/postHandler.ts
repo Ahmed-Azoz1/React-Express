@@ -1,3 +1,4 @@
+import { CreatePostRequest, CreatePostResponse, ListPostRequest, ListPostResponse } from "../api";
 import { db } from "../datastore"
 import { ExpressHandler, Post } from "../types";
 import crypto from 'crypto';
@@ -5,7 +6,7 @@ import crypto from 'crypto';
 
 
 // get(Posts)
-export const listPostsHandler:ExpressHandler<{},{}> = (req,res)=>{
+export const listPostsHandler:ExpressHandler<ListPostRequest,ListPostResponse> = (req,res)=>{
     res.send({posts:db.listPosts()})
 }
 
@@ -16,13 +17,15 @@ export const listPostsHandler:ExpressHandler<{},{}> = (req,res)=>{
 // }
 
 
-type CreatePostRequest = Pick<Post,'title'|'url'|'userId'>;
 
-interface CreatePostResponse{}
 
 // post(Posts)
 export const createPostsHandler:ExpressHandler<CreatePostRequest,CreatePostResponse> = (req,res)=>{
     // const post = req.body.post;
+
+    if(!req.body.title){
+        return res.status(400).send('Title field is required,but missing')
+    }
 
     if(!req.body.title || !req.body.url || !req.body.userId){
         return res.sendStatus(400)

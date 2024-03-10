@@ -1,4 +1,4 @@
-import express, { RequestHandler } from 'express';
+import express, { ErrorRequestHandler, RequestHandler } from 'express';
 import { createPostsHandler, listPostsHandler } from './handlers/postHandler';
 const app = express();
 
@@ -12,8 +12,15 @@ const requestLoggerMiddleware: RequestHandler = (req,res,next)=>{
 
 app.use(requestLoggerMiddleware)
 
-app.get('/posts',listPostsHandler)
+app.get('/v1/posts',listPostsHandler)
 
-app.post('/posts',createPostsHandler)
+app.post('/v1/posts',createPostsHandler)
+
+const errorHandler:ErrorRequestHandler = (err,req,res,next)=>{
+    console.log('Uncaught exception : ',err)
+    return res.status(500).send('Oop, an unexpected error occurred,please try again')
+}
+
+app.use(errorHandler);
 
 app.listen(3000);
