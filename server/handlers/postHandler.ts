@@ -6,8 +6,8 @@ import crypto from 'crypto';
 
 
 // get(Posts)
-export const listPostsHandler:ExpressHandler<ListPostRequest,ListPostResponse> = (req,res)=>{
-    res.send({posts:db.listPosts()})
+export const listPostsHandler:ExpressHandler<ListPostRequest,ListPostResponse> = async(req,res)=>{
+    res.send({posts:await db.listPosts()})
 }
 
 
@@ -20,12 +20,8 @@ export const listPostsHandler:ExpressHandler<ListPostRequest,ListPostResponse> =
 
 
 // post(Posts)
-export const createPostsHandler:ExpressHandler<CreatePostRequest,CreatePostResponse> = (req,res)=>{
+export const createPostsHandler:ExpressHandler<CreatePostRequest,CreatePostResponse> = async (req,res)=>{
     // const post = req.body.post;
-
-    if(!req.body.title){
-        return res.status(400).send('Title field is required,but missing')
-    }
 
     if(!req.body.title || !req.body.url || !req.body.userId){
         return res.sendStatus(400)
@@ -38,6 +34,6 @@ export const createPostsHandler:ExpressHandler<CreatePostRequest,CreatePostRespo
         url:req.body.url,
         userId:req.body.userId
     };
-    db.createPost(post)
-    res.sendStatus(200)
+    await db.createPost(post)
+    res.sendStatus(200);
 }
