@@ -1,8 +1,8 @@
 CREATE TABLE users(
     id VARCHAR PRIMARY KEY,
-	first_name VARCHAR NOT NULL,
-	last_name VARCHAR NOT NULL,
-    userName   VARCHAR UNIQUE NOT NULL,
+	firstName VARCHAR NOT NULL,
+	lastName VARCHAR NOT NULL,
+    username   VARCHAR UNIQUE NOT NULL,
 	email VARCHAR NOT NULL UNIQUE,
 	password VARCHAR NOT NULL 
 );

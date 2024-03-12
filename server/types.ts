@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 
 export interface User {
     id:string;
-    fristName:string;
+    firstName:string;
     lastName:string;
     username:string;
     email:string;
