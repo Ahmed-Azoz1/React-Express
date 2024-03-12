@@ -18,9 +18,9 @@ import { initDb } from './datastore';
 
     app.use(requestLoggerMiddleware)
 
-    app.get('/v1/posts',expressAsyncHandler(listPostsHandler))
+    app.get('/v1/posts',asyncHandler(listPostsHandler))
 
-    app.post('/v1/posts',expressAsyncHandler(createPostsHandler))
+    app.post('/v1/posts',asyncHandler(createPostsHandler))
 
     const errorHandler:ErrorRequestHandler = (err,req,res,next)=>{
         console.log('Uncaught exception : ',err)
