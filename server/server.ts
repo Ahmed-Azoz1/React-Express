@@ -1,4 +1,4 @@
-import express, { ErrorRequestHandler, RequestHandler } from 'express';
+import express from 'express';
 import { createPostsHandler, listPostsHandler } from './handlers/postHandler';
 import asyncHandler from 'express-async-handler';
 import { initDb } from './datastore';
