@@ -22,10 +22,15 @@ export interface GetPostResponse {
 
 // User Api
 export type SignUpRequest = Pick<User,'email'|'firstName'|'lastName'|'userName'|'password'>;
-export interface SignUpResponse {}
+export interface SignUpResponse {
+    jwt:string
+}
 
 export interface SignInRequest{
     login:string
     password:string
 }
-export type SignInResponse = Pick<User,'email'|'firstName'|'lastName'|'userName'|'id'>
+export type SignInResponse = {
+    user: Pick<User,'email'|'firstName'|'lastName'|'userName'|'id'>;
+    jwt:string;
+}
