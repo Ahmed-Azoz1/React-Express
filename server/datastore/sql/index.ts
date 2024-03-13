@@ -29,7 +29,7 @@ export class SqlDataStore implements Datastore{
         user.id.toString(),   
         user.firstName.toString(), 
         user.lastName.toString(), 
-        user.username.toString(),
+        user.userName.toString(),
         user.email.toString(),
         user.password.toString()
         )
@@ -37,8 +37,8 @@ export class SqlDataStore implements Datastore{
     getUserByEmail(email: string): Promise<User | undefined> {
         return this.db.get<User>(`SELECT * FROM users WHERE email = ?`,email)
     }
-    getUserByUsername(username: string): Promise<User | undefined> {
-        return this.db.get<User>(`SELECT * FROM users WHERE username = ?`,username)
+    getUserByUsername(userName: string): Promise<User | undefined> {
+        return this.db.get<User>(`SELECT * FROM users WHERE userName = ?`,userName)
     }
 
     listPosts(): Promise<Post[]> {
@@ -47,11 +47,11 @@ export class SqlDataStore implements Datastore{
 
     async createPost(post: Post): Promise<void> {
         await this.db.run('INSERT INTO posts (id, title, url, userId, postedAt) VALUES (?, ?, ?, ?, ?)',
-        post.id,   
+        post.id.toString(),   
         post.title.toString(),  // Convert title to string
         post.url.toString(),    // Convert url to string
-        Number(post.userId),    // Assuming userId is a number
-        post.postedAt.toString() // Convert postedAt to string
+        post.userId.toString(),    // Assuming userId is a number
+        Number(post.postedAt) // Convert postedAt to string
         );
     }
 

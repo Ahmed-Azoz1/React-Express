@@ -4,19 +4,19 @@ import { ExpressHandler, User } from "../types";
 import crypto from 'crypto'
 
 export const signUpHandler:ExpressHandler<SignUpRequest,SignUpResponse> = async (req,res)=>{
-    const {email,firstName,lastName,password,username} = req.body;
-    if(!email || !firstName || !lastName || !password || !username){
+    const {email,firstName,lastName,password,userName} = req.body;
+    if(!email || !firstName || !lastName || !password || !userName){
         return res.status(400).send('All fields are required');
     }
 
-    const existing = await db.getUserByEmail(email) || await db.getUserByUsername(username);
+    const existing = await db.getUserByEmail(email) || await db.getUserByUsername(userName);
     if(existing){
         return res.status(403).send('User already exists')
     }
 
     const user:User={
         id:crypto.randomUUID(),
-        email,firstName,lastName,username,password
+        email,firstName,lastName,userName,password
     }
     await db.createUser(user);
     return res.sendStatus(200)
@@ -37,6 +37,6 @@ export const signInHandler:ExpressHandler<SignInRequest,SignInResponse> = async(
         email:existing.email,
         firstName:existing.firstName,
         lastName:existing.lastName,
-        username:existing.username
+        userName:existing.userName
     })
 }

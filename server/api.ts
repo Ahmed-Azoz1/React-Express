@@ -21,11 +21,11 @@ export interface GetPostResponse {
 
 
 // User Api
-export type SignUpRequest = Pick<User,'email'|'firstName'|'lastName'|'username'|'password'>;
+export type SignUpRequest = Pick<User,'email'|'firstName'|'lastName'|'userName'|'password'>;
 export interface SignUpResponse {}
 
 export interface SignInRequest{
     login:string
     password:string
 }
-export type SignInResponse = Pick<User,'email'|'firstName'|'lastName'|'username'|'id'>
+export type SignInResponse = Pick<User,'email'|'firstName'|'lastName'|'userName'|'id'>
