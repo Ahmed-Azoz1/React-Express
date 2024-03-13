@@ -2,7 +2,9 @@ import express, { ErrorRequestHandler, RequestHandler } from 'express';
 import { createPostsHandler, listPostsHandler } from './handlers/postHandler';
 import asyncHandler from 'express-async-handler';
 import { initDb } from './datastore';
-import { signInHandler, signUpHandler } from './handlers/userHandler';
+import { signInHandler, signUpHandler } from './handlers/authHandler';
+import { requestLoggerMiddleware } from './middleware/loggerMiddleware';
+import { errorHandler } from './middleware/errorMiddleware';
 
 
 (async ()=>{
@@ -11,11 +13,8 @@ import { signInHandler, signUpHandler } from './handlers/userHandler';
 
     app.use(express.json());
 
-    const requestLoggerMiddleware: RequestHandler = (req,res,next)=>{
-        console.log(req.method,req.path,'body :' ,req.body)
-        next()
-    }
-
+    
+    // Ues MiddleWare
     app.use(requestLoggerMiddleware)
 
     app.get('/v1/posts',asyncHandler(listPostsHandler))
@@ -24,11 +23,8 @@ import { signInHandler, signUpHandler } from './handlers/userHandler';
     app.post('/v1/signup',asyncHandler(signUpHandler))
     app.post('/v1/signin',asyncHandler(signInHandler))
 
-    const errorHandler:ErrorRequestHandler = (err,req,res,next)=>{
-        console.log('Uncaught exception : ',err)
-        return res.status(500).send('Oop, an unexpected error occurred,please try again')
-    }
-
+    
+    // Use MiddleWare
     app.use(errorHandler);
 
     app.listen(3000);
