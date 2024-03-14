@@ -7,6 +7,7 @@ import crypto from 'crypto';
 
 // get(Posts)
 export const listPostsHandler:ExpressHandler<ListPostRequest,ListPostResponse> = async(req,res)=>{
+    console.log(req.headers.authorization)
     res.send({posts:await db.listPosts()})
 }
 
