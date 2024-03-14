@@ -2,7 +2,10 @@ import { JwtObject } from "./types";
 import jwt from 'jsonwebtoken';
 
 export function signJwt(obj:JwtObject):string{
-    return jwt.sign(obj,getJwtSecret())
+    return jwt.sign(obj,getJwtSecret(),{
+        expiresIn:'20d',
+        
+    })
 }
 
 

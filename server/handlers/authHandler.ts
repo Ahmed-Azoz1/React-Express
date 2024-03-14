@@ -17,7 +17,7 @@ export const signUpHandler:ExpressHandler<SignUpRequest,SignUpResponse> = async 
 
     const user:User={
         id:crypto.randomUUID(),
-        email,firstName,lastName,userName,password
+        email,firstName,lastName,userName,password:hashPassword(password)
     }
     await db.createUser(user);
     const jwt = signJwt({userId:user.id});
@@ -29,8 +29,10 @@ export const signInHandler:ExpressHandler<SignInRequest,SignInResponse> = async(
     if(!login || !password ){
         return res.sendStatus(400);
     }
+
+    
     const existing = (await db.getUserByEmail(login)) || (await db.getUserByUsername(login));
-    if(!existing || existing.password !== password){
+    if(!existing || existing.password !== hashPassword(password)){
         return res.sendStatus(403);
     }
 
@@ -46,4 +48,12 @@ export const signInHandler:ExpressHandler<SignInRequest,SignInResponse> = async(
         },
         jwt,
     })
+}
+
+
+function hashPassword(password:string):string{
+    // Hash password
+    return crypto.pbkdf2Sync(password,process.env.PASSWORD_SALT!,42,64,'sha512').toString('hex')
+    
+
 }
