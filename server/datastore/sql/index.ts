@@ -34,6 +34,12 @@ export class SqlDataStore implements Datastore{
         user.password.toString()
         )
     }
+
+    getUserById(id: string): Promise<User | undefined> {
+        return this.db.get<User>(`SELECT * FROM users WHERE id = ?`,id)
+    }
+
+
     getUserByEmail(email: string): Promise<User | undefined> {
         return this.db.get<User>(`SELECT * FROM users WHERE email = ?`,email)
     }

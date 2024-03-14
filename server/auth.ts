@@ -5,6 +5,8 @@ export function signJwt(obj:JwtObject):string{
     return jwt.sign(obj,getJwtSecret())
 }
 
+
+
 export function verifyJwt(token:string):JwtObject{
     return jwt.verify(token,getJwtSecret()) as JwtObject;
 }

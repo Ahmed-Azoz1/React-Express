@@ -6,6 +6,7 @@ import { signInHandler, signUpHandler } from './handlers/authHandler';
 import { requestLoggerMiddleware } from './middleware/loggerMiddleware';
 import { errorHandler } from './middleware/errorMiddleware';
 import dotenv from 'dotenv';
+import { authMiddleware } from './middleware/authMiddleware';
 
 
 (async ()=>{
@@ -19,12 +20,15 @@ import dotenv from 'dotenv';
     // Ues MiddleWare
     app.use(requestLoggerMiddleware)
 
-    app.get('/v1/posts',asyncHandler(listPostsHandler))
-    app.post('/v1/posts',asyncHandler(createPostsHandler))
-
+    // Public endpoint
     app.post('/v1/signup',asyncHandler(signUpHandler))
     app.post('/v1/signin',asyncHandler(signInHandler))
 
+    app.use(authMiddleware);
+
+    // Protected endpoint
+    app.get('/v1/posts',asyncHandler(listPostsHandler))
+    app.post('/v1/posts',asyncHandler(createPostsHandler))
     
     // Use MiddleWare
     app.use(errorHandler);
